@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: openjdk-17
+    commands:
+      - echo Installing Maven...
+      - apt-get -y install maven
+      - mvn --version
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 018370195085.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Building the Spring Boot application...
+      - mvn clean install
+      - echo Building the Docker image...
+      - docker build -t orders .
+      - docker tag orders:latest 018370195085.dkr.ecr.us-east-1.amazonaws.com/orders:latest
+  post_build:
+    commands:
+      - echo Pushing the Docker image to Amazon ECR...
+      - docker push 018370195085.dkr.ecr.us-east-1.amazonaws.com/orders:latest
+
