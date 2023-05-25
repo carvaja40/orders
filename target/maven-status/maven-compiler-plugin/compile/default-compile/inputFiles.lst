@@ -1,0 +1,9 @@
+/home/edgar/projects/version/src/main/java/com/store/service/OrderService.java
+/home/edgar/projects/version/src/main/java/com/store/repository/ItemRepository.java
+/home/edgar/projects/version/src/main/java/com/store/domain/Order.java
+/home/edgar/projects/version/src/main/java/com/store/service/OrderServiceImpl.java
+/home/edgar/projects/version/src/main/java/com/store/repository/OrderRepository.java
+/home/edgar/projects/version/src/main/java/com/store/domain/Item.java
+/home/edgar/projects/version/src/main/java/com/store/VersionApplication.java
+/home/edgar/projects/version/src/main/java/com/store/controller/OrderController.java
+/home/edgar/projects/version/src/main/java/com/store/controller/ItemController.java
