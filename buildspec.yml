@@ -16,7 +16,7 @@ phases:
       - echo Building the Spring Boot application...
       - mvn clean install
       - echo Building the Docker image with BuildKit...
-      - docker buildx build --builder mybuilder --platform linux/amd64 -t orders .
+      - docker buildx build  mybuilder -t orders .
       - docker tag orders:latest 018370195085.dkr.ecr.us-east-1.amazonaws.com/orders:latest
   post_build:
     commands:
