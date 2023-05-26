@@ -17,8 +17,9 @@ phases:
       - mvn clean install
       - echo Building the Docker image...
       - echo Building the Docker image with BuildKit...
-      - docker buildx create --use --name mybuilder
-      - docker buildx build --builder mybuilder -t orders .
+      - docker buildx create --name mybuilder
+      - docker buildx use mybuilder
+      - docker buildx build -t orders .
       - docker tag orders:latest 018370195085.dkr.ecr.us-east-1.amazonaws.com/orders:latest
   post_build:
     commands:
