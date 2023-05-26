@@ -7,6 +7,13 @@ phases:
     commands:
       - echo Installing Maven...
       - mvn --version
+      - echo Installing Docker...
+      - curl -fsSL https://get.docker.com -o get-docker.sh
+      - sh get-docker.sh
+      - echo Installing buildx component...
+      - mkdir -p ~/.docker/cli-plugins
+      - curl -L https://github.com/docker/buildx/releases/download/v0.6.3/buildx-v0.6.3.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+      - chmod a+x ~/.docker/cli-plugins/docker-buildx
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -15,11 +22,9 @@ phases:
     commands:
       - echo Building the Spring Boot application...
       - mvn clean install
-      - echo Building the Docker image...
       - echo Building the Docker image with BuildKit...
-      - docker buildx create --name mybuilder
-      - docker buildx use mybuilder
-      - docker buildx build -t orders .
+      - docker buildx create --use --name mybuilder
+      - docker buildx build --builder mybuilder --platform linux/amd64 -t orders .
       - docker tag orders:latest 018370195085.dkr.ecr.us-east-1.amazonaws.com/orders:latest
   post_build:
     commands:
