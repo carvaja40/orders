@@ -1,22 +1,23 @@
 version: 0.2
 
 phases:
+  pre_build:
+    commands:
+      - aws --version
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 018370195085.dkr.ecr.us-east-1.amazonaws.com
+  
   install:
     runtime-versions:
       java: corretto17
-    commands:
-      - echo Installing Maven...
-      - mvn --version
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 018370195085.dkr.ecr.us-east-1.amazonaws.com
+
+
   build:
     commands:
       - echo Building the Spring Boot application...
       - mvn clean install
       - echo Building the Docker image with BuildKit...
-      - docker buildx build --builder mybuilder -t orders .
+      - docker build -t orders .
       - docker tag orders:latest 018370195085.dkr.ecr.us-east-1.amazonaws.com/orders:latest
   post_build:
     commands:
